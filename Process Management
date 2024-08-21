@@ -1,0 +1,1093 @@
+2.1 Process and Thread Concept
+Process
+ A process is an instance of a program running in a computer.
+ It is close in meaning to task, a term used in some OS.
+ In UNIX and some other OS, a process is started when a program
+is initiated (either by a user entering a shell command or by
+another program).
+ A program by itself is not a process; a program is a passive entity,
+such as a file containing a list of instructions stored on disks. (often
+called an executable file)
+ A program becomes a process when an executable file is loaded
+into memory and executed.
+ A process is a program in execution. For example, when we write a
+program in C or C++ and compile it, the compiler creates binary
+code. The original code and binary code are both programs. When
+we actually run the binary code, it becomes a process.
+
+ When a program is loaded into a memory and it becomes a process
+, it can be divided into four sections :
+
+ Stack: it contain temporary data such as method/ function
+parameters return address and local variables.
+ Heap: this is dynamically allocated memory to a process
+during its run time.
+ Text: this includes the current activity represented by the value
+of program counter and the contents of the processor’s
+registers.
+ Data: This section contain the global and static variable
+
+Process Creation:
+ There are four principal events that cause processes to be created:
+
+1. System initialization.
+
+2. Execution of a process creation system call by a running
+process.
+3. A user request to create a new process.
+4. Initiation of a batch job.
+
+ Parent process create children processes, which, in turn create
+other processes, forming a tree of processes.
+ Generally, process identified and managed via a process identifier
+(pid).
+ When an operating system is booted, often several processes are
+created.
+ Some of these are foreground processes, that is, processes that
+interact with (human) users and perform work for them.
+
+Thread
+
+ A thread is the smallest unit of processing that can be performed in
+an OS.
+ In most modern operating systems, a thread exists within a process
+- that is, a single process may contain multiple threads.
+ A thread is a basic unit of CPU utilization, it comprises a thread
+ID, a program counter, a register set, and a stack.
+ It shares with other threads belonging to the same process its code
+section, data section, and other operating system resources, such as
+open files and signals.
+ A traditional (or heavy weight) process has a single thread of
+control.
+ If a process has multiple thread of control, it can perform more
+than one task at a time.
+ Fig below illustrate the difference between single threaded process
+and a multithreaded process.
+ Only one system call can create more than one thread (Lightweight
+process).
+ Threads share data and information.
+
+ Threads shares instruction, global and heap regions but has its own
+individual stack and registers.
+ Thread management consumes no or fewer system calls as the
+communication between threads can be achieved using shared
+memory.
+ The isolation property of the process increases its overhead in
+terms of resource consumption.
+
+Fig: Processes with single thread Fig: Process with three threads
+
+Each thread has its own stack.
+
+Types of Thread
+
+1) User Level Threads
+
+Is implemented in the user level library, they are not created using the
+system calls. Thread switching does not need to call OS and to cause
+interrupt to Kernel. Kernel doesn’t know about the user level thread
+and manages them as if they were single-threaded processes.
+
+Advantages of ULT:
+ Can be implemented on an OS that doesn&#39;t support
+multithreading.
+ Simple representation since thread has only program counter,
+register set, stack space.
+ Simple to create since no intervention of kernel.
+ Thread switching is fast since no OS calls need to be made.
+
+Disadvantages of ULT:
+ No or less co-ordination among the threads and Kernel.
+
+ If one thread causes a page fault, the entire process blocks.
+
+2) Kernel Level Thread
+
+Kernel knows and manages the threads. Instead of thread table in
+each process, the kernel itself has thread table (a master one) that
+keeps track of all the threads in the system. In addition kernel also
+maintains the traditional process table to keep track of the processes.
+OS kernel provides system call to create and manage threads.
+
+Advantages of KLT:
+ Since kernel has full knowledge about the threads in the system,
+scheduler may decide to give more time to processes having
+large number of threads.
+ Good for applications that frequently block.
+
+Disadvantages of KLT:
+ Slow and inefficient.
+ It requires thread control block so it is an overhead.
+
+Process Vs Threads
+BASIS FOR
+COMPARISON
+
+PROCESS THREAD
+
+Basic Program in execution. Lightweight process or part
+
+of it.
+
+Memory sharing Completely isolated and
+do not share memory.
+
+Shares memory with each
+other.
+Resource consumption More Less
+Efficiency Less efficient as compared
+to the process in the
+context of communication.
+
+Enhances efficiency in the
+context of communication.
+
+Time required for creation More Less
+Context switching time Takes more time. Consumes less time.
+Uncertain termination Results in loss of process. A thread can be reclaimed.
+Time required for
+termination
+
+More Less compared to
+Process
+
+Key Differences Between Process and Thread
+ All threads of a program are logically contained within a process.
+ A process is heavy weighted, but a thread is light weighted.
+ A program is an isolated execution unit whereas thread is not
+isolated and shares memory.
+ A thread cannot have an individual existence; it is attached to a
+process. On the other hand, a process can exist individually.
+ At the time of expiration of a thread, its associated stack could be
+recovered as every thread has its own stack. In contrast, if a process
+dies, all threads die including the process.
+
+2.2 Operation on Processes
+ The execution of a process is a complex activity. It involves various
+operations.
+Following are the operations that are performed while execution of a
+
+process.
+
+1) Creation: This is the initial step of process execution activity.
+Process creation means the construction of a new process for the
+execution. This might be performed by system, user or old
+process itself. There are several events that leads to the process
+creation. Some of the such events are following:
+ When we start the computer, system creates several background
+processes.
+ A user may request to create a new process.
+ A process can create a new process itself while executing.
+ Batch system takes initiation of a batch job.
+
+2. Scheduling/Dispatching: The event or activity in which the state of
+the process is changed from ready to running is
+scheduling/Dispatching.
+
+It means the operating system puts the process from ready state
+into the running state.
+ Dispatching is done by operating system when the resources are
+free or the process has higher priority than the ongoing process.
+ There are various other cases in which the process in running state
+is preempted and process in ready state is dispatched by the
+operating system.
+ 
+3. Blocking: When a process invokes an input-output system call that
+blocks the process and operating system put in block mode.
+ Block mode is basically a mode where process waits for input-
+output. Hence on the demand of process itself, operating system
+blocks the process and dispatches another process to the
+processor.
+ Hence, in process blocking operation, the operating system puts
+the process in ‘waiting’ state. 
+
+4. Preemption: When a timeout occurs that means the process hadn’t
+been terminated in the allotted time interval and next process is
+ready to execute, then the operating system preempts the process.
+ This operation is only valid where CPU scheduling supports
+preemption.
+ Basically this happens in priority scheduling where on the
+incoming of high priority process the ongoing process is
+preempted.
+ Hence, in process preemption operation, the operating system
+puts the process in ‘ready’ state. 
+
+5. Termination: Process termination is the activity of ending the
+process. In other words, process termination is the relaxation of
+computer resources taken by the process for the execution. Like
+creation, in termination also there may be several events that may
+lead to the process termination. Some of them are:
+ Process completes its execution fully and it indicates to the OS
+that it has finished.
+
+ Operating system itself terminates the process due to service
+errors.
+ There may be problem in hardware that terminates the process.
+ One process can be terminated by another process.
+
+2.3 Inter Process Communication
+ IPC is a mechanism that allows the exchange of data between
+processes.
+ Processes frequently needs to communicate with each other. For
+example, the output of the first process must be passed to the
+second process and so on.
+ Thus there is a need for communication between the process,
+preferably in a well-structured way not using the interrupts.
+ IPC enables one application to control another application, and for
+several applications to share the same data without interfering with
+one another.
+
+ Inter-process communication (IPC) is a set of techniques for the
+exchange of data among multiple threads in one or more processes.
+ Processes may be running on one or more computers connected by
+a network.
+ Processes executing concurrently in the operating system may be
+either independent process or co-operating process
+
+Independent process:
+ A process is independent if it can&#39;t affect or be affected
+by another process.
+
+Co-operating Process:
+ A process is co-operating if it can affects other or be
+affected by the other process.
+ Any process that shares data with other process is called
+co-operating process.
+
+There are two fundamental ways of IPC.
+a. Message Passing
+b. Shared Memory
+
+Shared Memory:
+ Here a region of memory that is shared by co-operating
+process is established.
+
+ Process can exchange the information by reading and writing
+data to the shared region.
+ Shared memory allows maximum speed and convenience of
+communication as it can be done at the speed of memory
+within the computer.
+ System calls are required only to establish shared memory
+regions.
+ Once shared memory is established no assistance from the
+kernel is required, all access are treated as routine memory
+access.
+
+Message Passing:
+
+ Communication takes place by means of messages exchanged
+between the co-operating process
+ Message passing is useful for exchanging the smaller amount
+of data.
+ Easier to implement than shared memory.
+ Slower than that of Shared memory as message passing
+system are typically implemented using system call
+ Which requires more time consuming task of Kernel
+intervention.
+
+2.4 Process States
+
+The Process passes from different states, from its formation to
+completion.
+The following are the states of the Process.
+1. New
+2. Ready
+3. Running
+4. Block or Wait
+5. Terminated or Completed
+6. Suspend ready
+7. Suspend wait or suspend blocked
+
+1. New: The state in which a process is created. The New
+state is the newly created program which is stored in the
+secondary storage, and taken by the operating system at the
+time of process creation.
+
+2. Ready:  After a process has been created, it enters into
+the ready state means the process is loaded into the memory.
+In this, the process is set to run and wait for its execution
+time to get the CPU. Processes that are ready for CPU
+execution are placed in a queue for a ready process.
+
+3. Run: - In a run state, the CPU selects the process for
+execution and executes the instructions within the process.
+
+4. Blocked or Wait: - If the process is in run state and the
+process needs some resources for execution, but the resource
+is held by some other process than the process enters into the
+blocked or waiting state.
+
+5. Terminated or Completed: - If the execution of the
+process is completed, then the process enters into the
+terminated or completed state.
+
+6. Suspend ready: - Sometimes, due to the minimum
+number of resources, some process which is in ready state
+transfer or moves to secondary storage from the primary
+storage, and this type of process that move in the ready state
+are called suspend ready.
+
+7. Suspend wait or suspend blocked: - Suspend-wait is like
+suspend blocked and uses the process which is performing
+input/output operation and due to minimum amount of
+main memory move them into secondary storage. It may go
+to suspend ready when work is finished.
+
+2.5 Process Synchronization: Critical Sections Problems and solution
+ Process Synchronization is the coordination of execution of
+multiple processes in a multi-process system to ensure that they
+access shared resources in a controlled and predictable manner.
+ It aims to resolve the problem of race conditions and other
+synchronization issues in a concurrent system.
+
+ The main objective of process synchronization is to ensure that
+multiple processes access shared resources without interfering with
+each other.
+ To achieve this, various synchronization techniques such as
+semaphores, monitors, and critical sections are used.
+ In a multi-process system, synchronization is necessary to ensure
+data consistency and integrity, and to avoid the risk of deadlocks
+and other synchronization problems.
+
+The part of the program where the shared memory is accessed that
+must not be concurrently accessed by more than one processes which is
+called as critical region.
+
+ Critical Section refers to the segment of code or the program which
+tries to access or modify the value of the variables in a shared
+resource.
+
+ When there is more than one process accessing or modifying a
+shared resource at the same time, then the value of that resource
+will be determined by the last process. This is called the race
+condition.
+
+Four conditions to provide mutual exclusion Or (Rules for avoiding Race
+Condition) Solution to Critical section problem:
+ No two processes simultaneously in critical region
+ No assumptions made about speeds or numbers of CPUs
+ No process running outside its critical region may block another
+process
+ No process must wait forever to enter its critical region
+
+FIG: Critical Regions and solution
+
+2.8 Semaphores
+ Semaphore is an integer variable to count the number of wakeup
+processes saved for future use.
+ A semaphore could have the value 0, indicating that no wakeup
+processes were saved, or some positive value if one or more
+wakeups were pending.
+ There are two operations, down (wait) and up(signal)
+(generalizations of sleep and wakeup, respectively).
+ The down operation on a semaphore checks if the value is greater
+than 0. If so, it decrements the value and just continues.
+
+ If the value is 0, the process is put to sleep without completing the
+down for the moment.
+
+ The up operation increments the value of the semaphore
+addressed. If one or more processes were sleeping on that
+semaphore, unable to complete an earlier down operation, one of
+them is chosen by the system (e.g., at random) and is allowed to
+complete its down.
+
+ Checking the value, changing it and possibly going to sleep is as a
+single indivisible atomic action. It is guaranteed that when a
+semaphore operation has started, no other process can access the
+semaphore until the operation has completed or blocked. This
+atomicity is essential for solving synchronization problems and
+avoid race condition.
+
+Atomic operations:
+
+ When one process modifies the semaphore value, no other process
+can simultaneously modify that same semaphore value.
+ In addition, in case of the P(S) operation the testing of the integer
+value of S (S&lt;=0) and its possible modification (S=S-1), must also
+be executed without interruption.
+ Modification to the integer value of the semaphore in the wait
+{p(s)} and signal{V(s)} operation must be executed indivisibly(only
+one process can modify the same semaphore value at a time)
+
+Semaphore operations:
+ P or Down, or Wait: P stands for proberen (&quot;to test”)
+ V or Up or Signal: Dutch words. V stands for verhogen
+(&quot;increase&quot;)
+wait(sem)
+ decrement the semaphore value. if negative, suspend the process
+and place in queue. (Also referred to as P(), down in literature.)
+ Implementation of wait:
+
+Wait (s)
+{
+While (s&lt;=0); // do nothing
+s=s-1;
+}
+
+signal(sem)
+ increment the semaphore value, allow the first process in the queue
+to continue. (Also referred to as V(), up in literature.)
+
+ Implementation of signal:
+signal(s)
+{
+s=s+1;
+}
+
+Implementation of Semaphore
+
+Semaphore S; // initialized to 1
+Do{
+wait (S);
+Critical Section
+signal (S);
+} while(T)
+
+Advantages of semaphores
+ Processes do not busy wait while waiting for resources.
+ While waiting, they are in a &quot;suspended&#39;&#39; state, allowing the CPU
+to perform other work.
+ Works on (shared memory) multiprocessor systems.
+ User controls synchronization.
+
+Disadvantage of semaphores
+ can only be invoked by processes--not interrupt service routines
+because interrupt routines cannot block
+ user controls synchronization--could mess up.
+
+2.9 Monitors
+ In concurrent programming, a monitor is an object or
+module intended to be used safely by more than one thread.
+ The defining characteristic of a monitor is that its methods
+are executed with mutual exclusion.
+ That is, at each point in time, at most one thread may be
+executing any of its methods.
+
+ Monitors also provide a mechanism for threads to
+temporarily give up exclusive access, it has to wait for some
+condition to be met, before regaining exclusive access and
+resuming their task.
+ Monitors also have a mechanism for signaling other threads
+that such conditions have been met.
+
+ A higher level synchronization primitive.
+ A monitor is a collection of procedures, variables, and data
+structures that are all grouped together in a special kind of module
+or package.
+ Processes may call the procedures in a monitor whenever they
+want to, but they cannot directly access the monitor&#39;s internal data
+structures from procedures declared outside the monitor.
+ This rule, which is common in modern object-oriented languages
+such as Java.
+
+2.10 CPU Scheduling
+Introduction:
+ In a multiprogramming system, frequently multiple process
+competes for the CPU at the same time.
+ When two or more process are simultaneously in the ready state a
+choice has to be made which process is to run next.
+
+ This part of the OS is called Scheduler and the algorithm is called
+scheduling algorithm.
+ Process execution consists of cycles of CPU execution and I/O
+wait. Processes alternate between these two states.
+ Process execution begins with a CPU burst that is followed by I/O
+burst, which is followed by another CPU burst then another I/O
+burst, and so on.
+ Eventually, the final CPU burst ends with a system request to
+terminate execution.
+
+CPU Scheduling
+The long-term scheduler:
+ Selects processes from this process pool and loads selected
+processes into memory for execution.
+The short-term scheduler:
+
+ Selects the process to get the processor from among the processes
+which are already in memory.
+ The short-time scheduler will be executing frequently (mostly at
+least once every 10 milliseconds).
+So it has to be very fast in order to achieve a better processor
+utilization.
+Medium term scheduler:
+ It can sometimes be good to reduce the degree of
+multiprogramming by removing processes from memory and
+storing them on disk.
+ These processes can then be reintroduced into memory by the
+medium-term scheduler.
+ This operation is also known as swapping. Swapping may be
+necessary to free memory.
+
+2.11 Scheduling Criteria:
+Many criteria have been suggested for comparison of CPU
+scheduling algorithms.
+CPU Utilization:
+ We have to keep the CPU as busy as possible. Theoretically, it may
+range from 0 to 100% but in a real system it can range from 40 –
+90 % depending on the load upon the system.
+
+Throughput:
+ It is the measure of work in terms of number of process being
+executed and completed per unit time.
+ The throughput may vary depending on the length or duration of
+the processes.
+
+ Ex: For long process this rate may be 1 process per hour, for short
+transaction, throughput may be 10 process per second.
+
+Turnaround Time:
+ The interval from the time of submission of a process to the time of
+completion is the turnaround time.
+ Turn-around time is the sum of times spent waiting to get into
+memory, waiting in the ready queue, executing in CPU, and
+waiting for I/O. 
+ Waiting time plus the service time.
+Turnaround time= Time of completion of job – Arrival time.
+
+Waiting time:
+ Waiting time is a criterion used in CPU scheduling that measures
+the amount of time a task or process waits in the ready queue
+before it is processed by the CPU.
+ A short waiting time indicates that tasks are being processed
+efficiently and quickly, leading to improved user satisfaction and
+productivity.
+
+Waiting Time = Turnaround Time – Burst Time.
+
+Response time:
+ In interactive system the turnaround time is not the best criteria.
+ Response time is the amount of time CPU takes to start responding
+the process.
+RT = Time at which the process gets the CPU for the first time –
+Arrival time
+2.12 Scheduling Algorithm
+ CPU scheduling deals with the problem of deciding which of the
+process in the ready queue be allocated to the CPU.
+
+ Basically, there are two types of it:
+ Preemptive Scheduling
+
+ Preemptive scheduling is a method that may be used when a
+process switches from a running state to a ready state or from a
+waiting state to a ready state.
+ The resources are assigned to the process for a particular time and
+then removed and assign resources to other process.
+ In here, the CPU can be snatch by high priority process.
+
+ Non-Preemptive Scheduling
+
+ Non-Preemptive scheduling is a method in which a process runs till
+it completes its execution or goes to the wait state.
+ Even it runs for hours, it will not be forcibly suspended.
+ No preference is given when a higher priority job comes.
+
+BASIS FOR
+COMPARISON
+
+PREEMPTIVE
+SCHEDULING
+
+NON PREEMPTIVE
+SCHEDULING
+
+Basic The resources are allocated
+to a process for a limited
+time.
+
+Once resources are allocated to
+a process, the process holds it
+till it completes its burst time or
+switches to waiting state.
+
+Interrupt Process can be interrupted
+
+in between.
+
+Process cannot be interrupted
+till it terminates or switches to
+waiting state.
+
+Starvation If a high priority process
+frequently arrives in the
+ready queue, low priority
+process may starve.
+
+If a process with long burst time
+is running CPU, then another
+process with less CPU burst
+time may starve.
+
+Overhead Preemptive scheduling has
+overheads of scheduling the
+processes.
+
+Non-preemptive scheduling
+does not have overheads.
+
+Flexibility Preemptive scheduling is
+
+flexible.
+
+Non-preemptive scheduling is
+rigid.
+
+Cost Preemptive scheduling is
+
+cost associated.
+
+Non-preemptive scheduling is
+not cost associative.
+
+Example: Round-Robin CPU
+scheduling is preemptive.
+
+First- Come- First- Serve
+scheduling is non- preemptive.
+
+Some CPU scheduling algorithm are:
+
+i) First- Come, First- serve Scheduling(FCFS):
+ This is the simplest of all the scheduling algorithms.
+ Basic principle of this algorithm is to allocate the CPU in the
+order in which the process arrive.
+ Its implementation involves a ready queue that works in First - In
+- First- Out order.
+ When the CPU is free, it is assigned to a process which is in front
+of the ready queue.
+ FCFS is a non-preemptive scheduling algorithm because the
+CPU has been allocated to a process that keeps the CPU busy
+until it’s released.
+
+Advantages
+
+ Simple algorithm and easy to implement.
+ Suitable specially, for batch system.
+ Does not give priority to any random important tasks first so it’s a
+fair scheduling.
+Disadvantages
+ FCFS results in convoy effect which means if a process with higher
+burst time comes first in the ready queue then the processes with
+lower burst time may get blocked and may not be able to get the
+CPU if the higher burst time task takes time forever.
+ Not suitable for time sharing system such as UNIX.
+
+Consider the set of 5 processes whose arrival time and burst time are
+given below:
+
+Process ID Arrival Time Burst Time
+P1 4 5
+P2 6 4
+P3 0 3
+P4 6 2
+P5 5 4
+Calculate the average waiting time and average turnaround time using
+FCFS scheduling.
+Solution
+
+P3 P1 P5 P2 P
+4
+
+Gantt Chart:
+0 3 4 9 13 17 19
+
+The shaded box represents the idle
+
+time of CPU.
+
+PID Completion
+Time
+
+Turnaround
+Time
+
+Waiting
+Time
+
+P1 9 5 0
+P2 17 11 7
+P3 3 3 0
+P4 19 13 11
+P5 13 8 4
+
+Turn Around Time = Completion Time – Arrival
+Time
+Waiting time = Turn Around Time – Burst Time
+
+Average Turnaround Time= (5+11+3+13+8)/5
+
+= 40/5
+= 8 units
+
+Average Waiting Time = (0+7+0+11+4)/5
+
+= 22/5
+= 4.4 units
+
+ii) Shortest Job First
+ The basic principle of this algorithm is to allocate the CPU to the
+process with least CPU- burst time.
+ The process are available in the ready queue.
+ CPU is always assigned to the process with least CPU burst time
+requirement.
+ If the new job needs less time to finish than the current process,
+the current process is suspended and the new job is started.
+ Please note that if two processes have same CPU burst time then
+FCFS is used to break the tie.
+ This algorithm can be either preemptive or non-preemptive.
+ The preemptive SJF scheduling algorithm is sometimes called as
+Shortest Remaining Time First (SRTF) Scheduling.
+ SJF algorithm works optimally only when the exact future
+execution times of jobs or processes are known at the time of
+scheduling.
+
+Advantages of SJF Scheduling
+ Since this algorithm gives minimum average waiting time so it is an
+optimal algorithm.
+
+Disadvantages of SJF Scheduling
+ It is difficult to know the length of next CPU burst time.
+ Big jobs are waiting for CPU. This results in aging problem.
+
+PID Arrival
+Time
+
+Burst
+Time
+P1 0 12
+P2 2 4
+P3 3 6
+P4 8 5
+
+Consider the set of 4 processes
+
+whose arrival time and burst time are given
+below:
+
+Calculate the average waiting time using SJF Scheduling.
+
+Solution
+
+P
+1
+P2 P3 P4 P1
+
+Gantt Chart:
+0 2 6 12 17 27
+Waiting Time = Total waiting time- No of millisecond process executed –
+Arrival Time
+PID Completion
+Time
+
+Turnaround
+Time
+
+Waiting
+Time
+P1 27 27 17-2-0=15
+P2 6 4 2-2=0
+P3 12 9 6-3=3
+P4 17 9 12-8=4
+
+Average waiting time = (15+0+3+4)/4
+
+= 5.5 ms
+
+iii) Shortest Remaining Time First
+ This algorithm is a preemptive scheduling algorithm.
+ In SRTF, The short term scheduler always chooses the process
+that has the shortest remaining processing time.
+ When a new process joins the ready queue, the short term
+scheduler compares the remaining time of executing process and
+new process, and if the new process has the least CPU burst time,
+the scheduler selects that job and allocates CPU else it continues
+with the old process.
+ Once all the processes are available in the ready queue, No
+preemption will be done and the algorithm will work as SJF
+scheduling.
+
+  The SRTF algorithm involves more overheads than the Shortest
+job first (SJF)scheduling, because in SRTF OS is required
+frequently in order to monitor the CPU time of the jobs in
+the READY queue and to perform context switching.
+ In the Process Control Block, the context of the process is saved,
+when the process is removed from the execution and when the next
+process is scheduled. The PCB is accessed on the next execution of
+this process.
+Advantages of SRTF
+ The main advantage of the SRTF algorithm is that it makes the
+processing of the jobs faster than the SJF algorithm, mentioned it’s
+overhead charges are not counted.
+Disadvantages of SRTF
+ In SRTF, the context switching is done a lot more times than in
+SJN due to more consumption of the CPU&#39;s valuable time for
+processing. The consumed time of CPU then adds up to its
+
+processing time and which then diminishes the advantage of fast
+processing of this algorithm.
+Numerical
+
+PID Arrival
+Time
+
+Burst
+Time
+P1 0 8
+P2 1 4
+P3 2 9
+P4 3 5
+From the above Process table, Calculate Turnaround Time,
+Waiting time and average response time.
+
+P
+1
+P2 P4 P1 P3
+
+Gantt Chart:
+
+0 1 5 10 17 26
+
+PID Completion
+Time
+
+Turnaround
+Time
+
+Waiting
+Time
+
+Response
+time
+P1 17 17 9 0-0=0
+P2 5 4 0 1-1=0
+P3 26 24 15 17-2=15
+
+P4 10 7 2 5-3=2
+
+Response time =Time of First Response (FR) of CPU towards Process (FR)-
+Arrival Time
+
+Now,
+
+Average response time =0+0+15+2/4
+
+=17/4
+= 4.25
+
+iv) Round Robin
+ One of the oldest, simplest, fairest and most widely used
+algorithm is round robin (RR).
+
+ Round Robin is a CPU scheduling algorithm where each process
+is assigned a fixed time slot in a cyclic way.
+ The period of time for which a process or job is allowed to run in
+a pre-emptive method is called time quantum or time slice. The
+CPU time is divided into slices.
+ Each process or job present in the ready queue is assigned the
+CPU for single time quantum, if the execution of the process is
+completed during that time then the process will end else the
+process will go back to the end of the ready queue and wait for its
+next turn to complete the execution.
+ Round Robin Scheduling is preemptive (at the end of time-slice)
+therefore it is effective in timesharing environments in which the
+system needs to guarantee reasonable response times for
+interactive users.
+ This algorithm is similar to preemptive version of FCFS as
+process are executed in first come first serve manner.
+
+ The performance of RR algorithm depends on given factor:
+
+ Size of Time Quantum
+ If the time quantum is large then RR work same as FCFS
+algorithm and if it’s small then the number of context switch
+increases, which degrades the performance.
+ Number of Context Switch
+ The number of context switches should not be too many as it
+slows down the overall execution of all the processes
+
+Consider the set of 5 processes whose arrival time and burst time are
+given below:
+Process ID Arrival Time Burst Time
+P1 0 5
+P2 1 3
+P3 2 1
+P4 3 2
+P5 4 3
+If the CPU scheduling policy is Round Robin with time quantum =2
+units, calculate average Waiting time and average Turnaround time.
+
+Solution
+
+P1 P2 P3 P4 P5 P1 P2 P5
+
+ Gantt Chart:
+0 2 4 5 7 9 11 12 13
+ The shaded box represents the idle time of CPU.
+
+2.13 Deadlock
+
+ A deadlock is a situation where a process or a set of processes is
+blocked, waiting for some resource that is held by some other
+waiting process.
+ Because all the processes are waiting, none of them will ever
+cause any of the events that could wake up any of the other
+members of the set, and all the processes continue to wait
+forever.
+ That is, none of the processes can-
+ run
+ release resources
+ be awakened
+ The number of processes and the number and kind of resources
+possessed and requested are unimportant.
+ This result holds for any kind of resources including both
+hardware and software.
+
+Fig: Deadlock
+
+Example:
+ Two process A and B each want to record a scanned
+document on a CD.
+ A requests permission to use Scanner and is granted.
+ B is programmed differently and requests the CD recorder
+first and is also granted.
+ Now, A ask for the CD recorder, but the request is denied
+until B releases it.
+ Unfortunately, instead of releasing the CD recorder B asks
+for Scanner.
+ At this point both processes are blocked and will remain so
+forever. This situation is called Deadlock.
+
+Conditions for Deadlock
+1) Mutual exclusion: Only one process may use a resource at a
+time.
+2) Hold and wait: Processes hold resources already allocated to
+them while waiting for additional resources.
+3) No preemption condition: Resources cannot be removed
+from the processes holding them until they are explicitly
+released by processes holding them.
+4) Circular wait condition: A circular chain of two or more
+processes, each of which is waiting for a resource held by the
+next process in the chain.
+
+NOTE: All four of these conditions must be present for a deadlock to occur. If
+one of them is absent, no deadlock is possible.
+
+Deadlock handling strategies:
+
+1. Just Ignore the problem altogether.
+2. Detection and recovery. Let deadlocks occur, detect
+them, and take action.
+3. Dynamic avoidance by careful resource allocation.
+4. Prevention, by structurally negating one of the four
+conditions necessary to cause a deadlock.
+
+Deadlock Prevention
+
+Preventing one of the following condition which leads to deadlock.
+1. Denying the Mutual Exclusion Condition.
+2. Denying the Hold and Wait Condition.
+3. Denying the No Preemption Condition.
+4. Denying the Circular Wait Condition.
+
+1. Denying the Mutual Exclusion Condition
+ If no resources were ever assigned exclusively to a single process,
+we would never have deadlock.
+ However, it is equally clear that allowing two processes to write on
+the printer at the same time will lead to chaos.
+Principle:
+ avoid assigning resource when not absolutely necessary
+ as few processes as possible actually claim the resource
+
+2. Denying the Hold and Wait Condition
+ If we can prevent processes that hold resources from waiting for
+more resources, we can eliminate deadlock.
+ Require processes to request resources before starting of execution.
+ A process never has to wait for what it needs.
+Problems
+ May not know required resources at start of run.
+ Also ties up resources other processes could be using.
+ Resources will not be used optimally with this approach.
+Variation:
+ Process must give up all resources whatever it is holding.
+ Then request all immediately needed.
+
+3. Denying the No Preemption Condition
+ This is not a viable option.
+ Consider a process given the printer halfway through its job, now
+forcibly take away printer
+ Then !!??
+
+4. Denying the Circular Wait Condition
+ One way to achieve this:
+ Process is entitled only to a single resource at any moment.
+ If it needs a second one, it must release the first one.
+ Always acceptable????
+ Next way:
+ Provide a global numbering of all the resources.
+1 ≡ Card reader
+2 ≡ Printer
+
+3 ≡ Plotter
+4≡ Tape drive
+5 ≡ Card punch
+ Requests must be made in numerical order.
+ E g., a process may request a printer and then a tape drive, but
+not in reverse order.
+ The problem with this strategy is that it may be impossible to
+find an ordering that satisfies everyone.
+
+Deadlock Detection
+ Deadlock detection is the process of actually determining that a
+deadlock exists and identifying the processes and resources
+involved in the deadlock.
+ The basic idea is to check allocation against resource availability
+for all possible allocation sequences to determine if the system is in
+deadlocked state a.
+ Of course, the deadlock detection algorithm is only half of this
+strategy. Once a deadlock is detected, there needs to be a way to
+recover several alternatives exists:
+ Temporarily prevent resources from deadlocked processes.
+ Back off a process to some check point allowing preemption of a
+needed resource and restarting the process at the checkpoint
+later.
+ Successively kill processes until the system is deadlock free.
+ These methods are expensive in the sense that each iteration calls
+the detection algorithm until the system proves to be deadlock free.
+ The complexity of algorithm is O(N 2 ) where N is the number of
+proceeds.
+
+Recovery from Deadlock
+1. Recovery through preemption:
+
+ Deadlock can be recovered by temporarily taking a resource
+away from its current owner and give it to another process.
+ The ability to take a resource away from a process, have
+another process use it, and then give it back without the
+process noticing it is highly dependent on the nature of
+resource.
+
+Fig: I Fig: II
+
+2. Recovery through rollback:
+ Processes are check pointed periodically.
+ Check pointing would write the state of a process to a file so
+that it can be restarted later.
+ The checkpoint contains the memory image and resource states.
+ New checkpoints should not overwrite old ones but should be
+written to new files.
+ When a deadlock is detected, the process that owns the needed
+resources is rolled back to a point in time before it acquired
+some other resources by starting one of its earlier check point.
+
+3. Recovery through killing process
+ It is the simplest way to break a deadlock.
+ One possibility is killing a process in the cycle. If it doesn’t
+help, it can be continued until the cycle is broken.
+ Alternatively, a process not in the cycle can be chosen as a
+victim in order to release its resources.
+ Eg. Process A holds a printer and wants a plotter and process B
+holds a plotter and wants a printer. These two are deadlocked.
+A third process C may hold another identical printer and
+plotter and be happily running. Killing the third process will
+release the resources and break the deadlock involving the first
+two.
