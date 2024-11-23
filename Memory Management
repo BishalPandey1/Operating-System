@@ -919,6 +919,7 @@ and used in Atlas computer system.
 concept, all microprocessor now support virtual
 memory.
  Virtual memory can be implemented by two
+
 most common used methods:
  Paging
  Segmentation
