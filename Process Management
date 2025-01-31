@@ -272,7 +272,6 @@ regions.
  Once shared memory is established no assistance from the
 kernel is required, all access are treated as routine memory
 access.
-
 Message Passing:
 
  Communication takes place by means of messages exchanged
