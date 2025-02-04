@@ -1,14 +1,17 @@
 3.1 Main Memory Management
  During execution, programs and data must be in
 main memory (at least partially).
+
  Furthermore, to improve both utilization of the
 CPU and speed of its response to users, the
 computer system must keep several processes in
 memory; that is, we must share memory.
+
  Since main memory is usually too small to
 accommodate all the data and programs
 permanently, the computer system must provide
 secondary storage to back up main memory.
+
  Memory management is the act of managing
 computer memory.
  This involves providing ways to allocate portions
